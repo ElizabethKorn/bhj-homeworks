@@ -1,36 +1,32 @@
 const tooltip = document.querySelectorAll(".has-tooltip");
+const tooltipElem = document.createElement("div");
+tooltipElem.classList.add("tooltip");
+
+document.body.appendChild(tooltipElem);
 
 tooltip.forEach((elem) => {
   elem.addEventListener("click", function (e) {
     e.preventDefault();
-    removeActiveTooltip();
-
-    let tooltipElem = elem.querySelector(".tooltip");
     const title = elem.getAttribute("title");
 
-    if (!tooltipElem) {
-      tooltipElem = document.createElement("div");
-      tooltipElem.classList.add("tooltip");
+    if (tooltipElem.classList.contains("tooltip_active")) {
+      tooltipElem.classList.remove("tooltip_active");
+      tooltipElem.style.display = "none";
+    } else {
       tooltipElem.innerText = title;
-      elem.appendChild(tooltipElem);
-    }
+      tooltipElem.classList.add("tooltip_active");
+      tooltipElem.style.display = "block";
 
-    const rect = elem.getBoundingClientRect();
-    tooltipElem.style.left = `${rect.left}px`;
-    tooltipElem.style.top = `${rect.bottom}px`;
-    tooltipElem.classList.add("tooltip_active");
+      const rect = elem.getBoundingClientRect();
+      tooltipElem.style.left = `${rect.left}px`;
+      tooltipElem.style.top = `${rect.bottom}px`;
+    }
   });
 });
 
-function removeActiveTooltip() {
-  document.querySelectorAll(".tooltip").forEach((tooltip) => {
-    tooltip.classList.remove("tooltip_active");
-    tooltip.remove();
-  });
-}
-
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".has-tooltip")) {
-    removeActiveTooltip();
+    tooltipElem.classList.remove("tooltip_active");
+    tooltipElem.style.display = "none";
   }
 });
