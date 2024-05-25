@@ -2,7 +2,7 @@ const form = document.querySelector(".tasks__control");
 const list = document.querySelector(".tasks__list");
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  let text = document.getElementById("task__input").value;
+  let text = document.getElementById("task__input").value.trim();
   console.log(text);
   if (text !== "") {
     const task = document.createElement("div");
